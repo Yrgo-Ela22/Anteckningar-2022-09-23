@@ -1,4 +1,4 @@
-# Anteckningar - 2022-09-24
+# Anteckningar - 2022-09-23
 Filhantering i C via externa funktioner deklarerad i en egenskapad headerfil döpt file.h.
 
 Filen file.h utgör en egenskapad headerfil som innehåller deklaration av skapade filfunktioner
