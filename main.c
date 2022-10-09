@@ -1,129 +1,129 @@
 /********************************************************************************
-* main.c: Demonstration av filhantering i C via ett fåtal externa funktioner
+* main.c: Demonstration av filhantering i C via ett fÃ¥tal externa funktioner
 *         deklarerade i den egenskapade headerfilen file.h.z
 * 
-*         Filhantering genomförs enligt nedan i C:
+*         Filhantering genomfÃ¶rs enligt nedan i C:
 * 
-*         1. Öppna filen för skrivning via en filpekare via funktionen fopen.
-*            Passera filsökvägen samt vad som skall ske, exempelvis "w" (write)
-*            för skrivning till fil, där eventuellt tidigare innehåll i filen 
-*            raderas, "a" (append) för bifogande av text längst bak i filen
-*            samt "r" (read) för läsning av innehåll på filsökvägen.
+*         1. Ã–ppna filen fÃ¶r skrivning via en filpekare via funktionen fopen.
+*            Passera filsÃ¶kvÃ¤gen samt vad som skall ske, exempelvis "w" (write)
+*            fÃ¶r skrivning till fil, dÃ¤r eventuellt tidigare innehÃ¥ll i filen 
+*            raderas, "a" (append) fÃ¶r bifogande av text lÃ¤ngst bak i filen
+*            samt "r" (read) fÃ¶r lÃ¤sning av innehÃ¥ll pÃ¥ filsÃ¶kvÃ¤gen.
 * 
-*            Antag att en pekare döpt filepath pekare på filsökvägen data.txt
+*            Antag att en pekare dÃ¶pt filepath pekare pÃ¥ filsÃ¶kvÃ¤gen data.txt
 *            enligt nedan:
 * 
 *            const char* filepath = "data.txt";
 * 
-*            För att öppna filen data.txt för skrivning via filpekaren ostream
-*            kan följande instruktion användas:
+*            FÃ¶r att Ã¶ppna filen data.txt fÃ¶r skrivning via filpekaren ostream
+*            kan fÃ¶ljande instruktion anvÃ¤ndas:
 * 
 *            FILE* ostream = fopen(filepath, "w");
 * 
-*            För att öppna filen data.txt för läsning via filpekaren istream 
-*            kan följande instruktion användas:
+*            FÃ¶r att Ã¶ppna filen data.txt fÃ¶r lÃ¤sning via filpekaren istream 
+*            kan fÃ¶ljande instruktion anvÃ¤ndas:
 * 
 *            FILE* istream = fopen(filepath, "r");
 * 
-*         2. Kontrollera att filen gick att öppna. Om det inte gick att öppna
-*            filen returneras en nullpekare från filen fopen. Om filpekaren är
-*            null (kontrolleras via NULL eller 0), så gick filen inte att öppna.
-*            Skriv då ut ett felmeddelande, föredragsvis till standardfelenheten
+*         2. Kontrollera att filen gick att Ã¶ppna. Om det inte gick att Ã¶ppna
+*            filen returneras en nullpekare frÃ¥n filen fopen. Om filpekaren Ã¤r
+*            null (kontrolleras via NULL eller 0), sÃ¥ gick filen inte att Ã¶ppna.
+*            Skriv dÃ¥ ut ett felmeddelande, fÃ¶redragsvis till standardfelenheten
 *            stderr via funktionen fprintf, men utskrift i terminalen via printf
-*            är också okej). Avsluta funktionen ifall filen inte gick att öppna.
+*            Ã¤r ocksÃ¥ okej). Avsluta funktionen ifall filen inte gick att Ã¶ppna.
 * 
-*            För att kontrollera att filen data.txt gick att öppna för skrivning
-*            via ovanstående filpekare ostream kan följande if-sats användas:
+*            FÃ¶r att kontrollera att filen data.txt gick att Ã¶ppna fÃ¶r skrivning
+*            via ovanstÃ¥ende filpekare ostream kan fÃ¶ljande if-sats anvÃ¤ndas:
 * 
 *            if (!ostream)
 *            {
-*               fprintf(ostream, "Could not open file at path %s!\n", filepath);
+*               fprintf(stderr, "Could not open file at path %s!\n", filepath);
 *            }
 * 
-*         3. Om filen gick att öppna, genomför antingen skrivning/bifogande av
-*            text via funktionen fprintf eller filläsning via funktionen fgets.
+*         3. Om filen gick att Ã¶ppna, genomfÃ¶r antingen skrivning/bifogande av
+*            text via funktionen fprintf eller fillÃ¤sning via funktionen fgets.
 * 
-*            Vid skrivning/bifogande av text, använd filpekaren ostream som 
-*            första argument följt av det som skall skrivas till filen 
-*            (förutom första argumentet fungerar fprintf exakt samma som printf). 
+*            Vid skrivning/bifogande av text, anvÃ¤nd filpekaren ostream som 
+*            fÃ¶rsta argument fÃ¶ljt av det som skall skrivas till filen 
+*            (fÃ¶rutom fÃ¶rsta argumentet fungerar fprintf exakt samma som printf). 
 * 
-*            Som exempel, för att skriva/bifoga innehållet lagrat i en intvariabel
-*            x till filen data.txt kan följande instruktion användas:
+*            Som exempel, fÃ¶r att skriva/bifoga innehÃ¥llet lagrat i en intvariabel
+*            x till filen data.txt kan fÃ¶ljande instruktion anvÃ¤ndas:
 *            
 *            fprintf(ostream, "%d", x);
 * 
-*            Vid läsning, deklarera en sträng för lagring av text från varje
-*            inläst rad. En lämplig storlek är 100 tecken, vilket kan 
-*            implementeras via en sträng döpt s, som initieras till tom vid
-*            start via nedanstående instruktion: 
+*            Vid lÃ¤sning, deklarera en strÃ¤ng fÃ¶r lagring av text frÃ¥n varje
+*            inlÃ¤st rad. En lÃ¤mplig storlek Ã¤r 100 tecken, vilket kan 
+*            implementeras via en strÃ¤ng dÃ¶pt s, som initieras till tom vid
+*            start via nedanstÃ¥ende instruktion: 
 *
 *            char s[100] = { '\0' };
 * 
-*            En given rad kan läsas ur filen via anrop af funktionen fgets:
+*            En given rad kan lÃ¤sas ur filen via anrop af funktionen fgets:
 * 
 *            fgets(s, (int)sizeof(s), istream);
 * 
-*            Vid anropet till inläsningsfunktionen fgets passeras en pekare
-*            till strängen där aktuell inläst rad temporärt skall lagras,
-*            sedan passeras strängens storlek (så att högst så många tecken
-*            som strängen rymmer läses in) följt av filpekaren till filen
-*            där läsningen skall ske från.
+*            Vid anropet till inlÃ¤sningsfunktionen fgets passeras en pekare
+*            till strÃ¤ngen dÃ¤r aktuell inlÃ¤st rad temporÃ¤rt skall lagras,
+*            sedan passeras strÃ¤ngens storlek (sÃ¥ att hÃ¶gst sÃ¥ mÃ¥nga tecken
+*            som strÃ¤ngen rymmer lÃ¤ses in) fÃ¶ljt av filpekaren till filen
+*            dÃ¤r lÃ¤sningen skall ske frÃ¥n.
 * 
-*            Ovanstående instruktion medför dock enbart läsning av en enda
-*            rad. För att läsa in rad för rad tills filen är slut kan
-*            ovanstående instruktion används som villkor till en while-sats:
+*            OvanstÃ¥ende instruktion medfÃ¶r dock enbart lÃ¤sning av en enda
+*            rad. FÃ¶r att lÃ¤sa in rad fÃ¶r rad tills filen Ã¤r slut kan
+*            ovanstÃ¥ende instruktion anvÃ¤nds som villkor till en while-sats:
 * 
 *            while (fgets(s, (int)sizeof(s), istream))
 *            {
 *            }
 * 
-*            Eftersom en pekare till den textsnutt som läses in returneras
-*            från funktionen fgets och en nullpekare returneras när filen är
-*            slut så medför ovanstående while-sats att så länge rad läses in
-*            så fortgår while-satsen. 
+*            Eftersom en pekare till den textsnutt som lÃ¤ses in returneras
+*            frÃ¥n funktionen fgets och en nullpekare returneras nÃ¤r filen Ã¤r
+*            slut sÃ¥ medfÃ¶r ovanstÃ¥ende while-sats att sÃ¥ lÃ¤nge rad lÃ¤ses in
+*            sÃ¥ fortgÃ¥r while-satsen. 
 * 
-*            Eftersom varje inläst rad lagras i strängen s så kan utskrift
-*            av denna rad genomföras via formatspecificare %s:
+*            Eftersom varje inlÃ¤st rad lagras i strÃ¤ngen s sÃ¥ kan utskrift
+*            av denna rad genomfÃ¶ras via formatspecificare %s:
 * 
 *            printf("%s", s);
 * 
-*            Nedanstående while-sats medför därmed inläsning av varje rad i
-*            aktuell fil, följt av utskrift i terminalen:
+*            NedanstÃ¥ende while-sats medfÃ¶r dÃ¤rmed inlÃ¤sning av varje rad i
+*            aktuell fil, fÃ¶ljt av utskrift i terminalen:
 *             
 *            while (fgets(s, (int)sizeof(s), istream))
 *            {
 *               printf("%s", s);
 *            }
 *
-*         4. Stäng filen efter slutförd läsning/skrivning via anrop av 
-*            funktionen fclose. Passera använd filpekare. Som exempel, för
-*            att stänga filen data.txt, som tidigare öppnades för skrivning
-*            via filpekaren ostream, kan filen stängas via följande instruktion:
+*         4. StÃ¤ng filen efter slutfÃ¶rd lÃ¤sning/skrivning via anrop av 
+*            funktionen fclose. Passera anvÃ¤nd filpekare. Som exempel, fÃ¶r
+*            att stÃ¤nga filen data.txt, som tidigare Ã¶ppnades fÃ¶r skrivning
+*            via filpekaren ostream, kan filen stÃ¤ngas via fÃ¶ljande instruktion:
 * 
 *            fclose(ostream);
 * 
-*         OBS! För att använda funktionen fopen i Visual Studio, högerklicka
-*         på projektnamnet, scrolla ned till Properties. I den nya ruta som
-*         kommer upp, klicka på C/C++ -> Preprocessor. I rutan märkt
+*         OBS! FÃ¶r att anvÃ¤nda funktionen fopen i Visual Studio, hÃ¶gerklicka
+*         pÃ¥ projektnamnet, scrolla ned till Properties. I den nya ruta som
+*         kommer upp, klicka pÃ¥ C/C++ -> Preprocessor. I rutan mÃ¤rkt
 *         Preprocessor Definitions, skrivs in _CRT_SECURE_NO_WARNINGS.
-*         Se till att ha ett blanksteg mellan föregående definition och 
+*         Se till att ha ett blanksteg mellan fÃ¶regÃ¥ende definition och 
 *         denna nya definition.
 *
-*         Tips: För att enkelt läsa innehållet skrivet till en viss fil utan
-*         att använda en filskrivningsfunktion, klicka på Tools -> Command Line 
+*         Tips: FÃ¶r att enkelt lÃ¤sa innehÃ¥llet skrivet till en viss fil utan
+*         att anvÃ¤nda en filskrivningsfunktion, klicka pÃ¥ Tools -> Command Line 
 *         -> Developer Command Prompt. I den terminal som dyker upp, skriv 
-*         kommandot type följt av filens namn för att skriva ut innehållet. 
-*         Som exempel, för att läsa innehållet från filen numbers.txt, skriv 
-*         följande kommando (utan dollartecknet):
+*         kommandot type fÃ¶ljt av filens namn fÃ¶r att skriva ut innehÃ¥llet. 
+*         Som exempel, fÃ¶r att lÃ¤sa innehÃ¥llet frÃ¥n filen numbers.txt, skriv 
+*         fÃ¶ljande kommando (utan dollartecknet):
 * 
 *         $ type numbers.txt
 ********************************************************************************/
 #include "file.h"
 
 /********************************************************************************
-* main: Skriver två rader text till filen data.txt. Filens innehåll skrivs 
-*       sedan ut i terminalen. Därefter skrivs fem flyttal ut i terminalen
-*       samt till en fil döpt numbers.txt.
+* main: Skriver tvÃ¥ rader text till filen data.txt. Filens innehÃ¥ll skrivs 
+*       sedan ut i terminalen. DÃ¤refter skrivs fem flyttal ut i terminalen
+*       samt till en fil dÃ¶pt numbers.txt.
 ********************************************************************************/
 int main(void)
 {
